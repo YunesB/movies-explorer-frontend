@@ -1,24 +1,26 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../images/svg/header__logo.svg';
 
-function Header() {
+function Header(props) {
   return (
-    <header className="header">
+    <header className={`header ${props.loggedIn ? 'header__state_logged-in' : ''}`}>
       <div className="header__container">
+        <Link to="/" className="header__link">
           <img src={logo} alt="Логотип Проекта" className="header__logo" />
-        <div className="header__link-container">
-          <Link to={'1'} className="header__link">Регистрация</Link>
-          <Link to={'1'} className="header__link header__link_outlined">Войти</Link>
+        </Link>
+        <div className={`${props.loggedIn ? 'hidden' : 'header__link-container'}`}>
+          <Link to="/sign-up" className="header__link">Регистрация</Link>
+          <Link to="/sign-in" className="header__link header__link_outlined">Войти</Link>
         </div>
-      </div>
-      <div className="header__heading-container">
-        <h1 className="header__heading">Учебный проект студента факультета Веб-разработки.</h1>
-      </div>
-      <div className="header__navigation">
-        <Link to={'1'} className="header__nav-link">О проекте</Link>
-        <Link to={'1'} className="header__nav-link">Технологии</Link>
-        <Link to={'1'} className="header__nav-link">Студент</Link>
+        <div className={`${props.loggedIn ? 'header__link-container' : 'hidden'}`}>
+          <Link to="/main" className="header__link header__link_state_logged-in">Фильмы</Link>
+          <Link to="/saved-movies" className="header__link header__link_state_logged-in">Сохраненные фильмы</Link>
+          <Link to="/profile" className="header__link-box">
+            Аккаунт
+            <div className="header__link-icon"></div>
+          </Link>
+        </div>
       </div>
     </header>
   );

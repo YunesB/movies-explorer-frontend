@@ -1,3 +1,31 @@
+.hidden {
+  display: none;
+}
+
 @import url("./blocks/root/page.css");
 @import url("./vendor/normalize.css");
 @import url("./fonts/inter_web/inter.css");
+
+/* General */
+@import url("./components/Header/Header.css");
+@import url("./components/Footer/Footer.css");
+
+/* Landing Page */
+@import url("./components/Navigation/Navigation.css");
+@import url("./components/About/About.css");
+@import url("./components/Technologies/Technologies.css");
+@import url("./components/Student/Student.css");
+
+/* Main */
+@import url("./components/SearchBar/SearchBar.css");
+@import url("./components/MoviesCardsList/MoviesCardsList.css");
+@import url("./components/MoviesCard/MoviesCard.css");
+
+/* Profile */
+@import url("./components/Profile/Profile.css");
+
+/* Authorization */
+@import url("./components/Authorization/Authorization.css");
+
+/* NotFound */
+@import url("./components/NotFound/NotFound.css");

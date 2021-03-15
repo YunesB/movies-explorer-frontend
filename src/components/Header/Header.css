@@ -1,0 +1,86 @@
+.header {
+  width: 100%;
+  background-color: #073042;
+}
+
+.header__state_logged-in {
+  background-color: unset;
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 70px;
+  padding: 18px 0;
+}
+
+.header__link-container {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.header__link {
+  text-decoration: none;
+  color: white;
+  margin: 0 30px 0 0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  transition: 0.2s;
+}
+
+.header__link_state_logged-in {
+  margin: 0 20px 0 0;
+}
+
+.header__link:last-of-type {
+  margin: 0;
+}
+
+.header__link:hover {
+  opacity: 0.7;
+}
+
+.header__link_outlined {
+  color: black;
+  padding: 8px 20px;
+  background-color: #3ddc84;
+  border-radius: 5px;
+}
+
+.header__link-box {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  margin: 0 0 0 30px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  transition: 0.2s;
+}
+
+.header__link-box:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.header__link-box:hover .header__link-icon {
+  opacity: 1;
+  background-color: #3ddc84;
+}
+
+.header__link-icon {
+  width: 26px;
+  height: 26px;
+  background-color: #313131;
+  background-image: url("../../images/svg/profile_icon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 11px 11px;
+  border-radius: 50%;
+  margin: 0 0 0 7px;
+  transition: 0.2s;
+}

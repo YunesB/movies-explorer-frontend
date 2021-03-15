@@ -9,7 +9,7 @@ function Footer() {
             <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer__link">Яндекс.Практикум</a>
           </li>
           <li className="footer__list-item">
-            <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer__link">Facebook</a>
+            <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer__link">Github</a>
           </li>
           <li className="footer__list-item">
             <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer__link">Facebook</a>
