@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Header from '../Header/Header';
 
 // Landing page
@@ -19,10 +21,23 @@ import Profile from '../Profile/Profile';
 // NotFound
 import NotFound from '../NotFound/NotFound';
 
+// Popup
+import Popup from '../Popup/Popup';
+
+// Preloader
+import Preloader from '../Preloader/Preloader';
+
 import Footer from '../Footer/Footer';
 import { Route, Switch, Redirect, withRouter, useHistory } from 'react-router-dom';
 
 function App() {
+
+  const [isTooltipPopupOpened, setTooltipPopupOpened] = React.useState(false);
+
+  function toggleTooltipPopup() {
+    setTooltipPopupOpened(!isTooltipPopupOpened);
+  }
+
   return (
     <div className="page">
       <div className="content">
@@ -36,6 +51,11 @@ function App() {
             <Technologies />
             <Student />
             <Footer />
+            <Popup 
+              isOpen={isTooltipPopupOpened}
+              onClose={toggleTooltipPopup}
+            />
+            <Preloader />
           </Route>
           <Route path="/sign-in">
             <Authorization 

@@ -1,55 +1,52 @@
-input[type="checkbox"].search-bar__checkbox {
-  position: absolute;
-  margin: 5px 0 0 10px;
-}
-
-input[type="checkbox"].search-bar__checkbox + .search-bar__placeholder {
+.search-bar__switch {
   position: relative;
-  padding: 0 0 0 32px;
-  line-height: 1.3em;
+  display: inline-block;
+  width: 34px;
+  height: 14px;
 }
 
-input[type="checkbox"].search-bar__checkbox + .search-bar__placeholder:before {
-  content: "";
+.search-bar__switch .search-bar__checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.search-bar__slider {
   position: absolute;
-  display: block;
-  left: 0;
+  cursor: pointer;
   top: 0;
-  width: 25px;
-  height: 15px;
-  border-radius: 10px;
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
 }
 
-input[type="checkbox"].search-bar__checkbox + .search-bar__placeholder:after {
-  content: "";
+.search-bar__slider:before {
   position: absolute;
-  display: block;
-  left: 0px;
-  top: 0px;
-  width: 15px;
-  height: 15px;
-  border-radius: 10px;
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
 }
 
-input[type="checkbox"].search-bar__checkbox
-  + .search-bar__placeholder:hover:after {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+.search-bar__checkbox:checked + .search-bar__slider {
+  background-color: #3DDC84;
 }
 
-input[type="checkbox"].search-bar__checkbox:checked
-  + .search-bar__placeholder:after {
-  margin-left: 10px;
+.search-bar__checkbox:focus + .search-bar__slider {
+  box-shadow: 0 0 1px #3DDC84;
 }
 
-input[type="checkbox"].search-bar__checkbox:checked
-  + .search-bar__placeholder:before {
-  background: #55d069;
+.search-bar__checkbox:checked + .search-bar__slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
 }

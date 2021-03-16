@@ -6,10 +6,10 @@
   max-height: 218px;
 }
 
-/* .card:hover {
-  box-shadow: #8b8b8b;
+.card:hover {
+  box-shadow: 0 0 10px #8b8b8b;
   cursor: pointer;
-} */
+}
 
 .card__image {
   object-fit: contain;
@@ -41,10 +41,22 @@
   border: none;
   background-color: unset;
   background-image: url("../../images/svg/card_button.svg");
+  background-position: center;
+  background-size: 100%;
   width: 16px;
   height: 16px;
   transition: 0.2s;
   outline: none;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.card__button_state_saved {
+  background-color: #2BE080;
+}
+
+.card__button_state_cancel {
+  background-image: url("../../images/svg/card_button_cancel.svg");
 }
 
 .card__button:hover {

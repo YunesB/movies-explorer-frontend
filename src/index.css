@@ -1,7 +1,3 @@
-.hidden {
-  display: none;
-}
-
 @import url("./blocks/root/page.css");
 @import url("./vendor/normalize.css");
 @import url("./fonts/inter_web/inter.css");
@@ -29,3 +25,6 @@
 
 /* NotFound */
 @import url("./components/NotFound/NotFound.css");
+
+/* Popup */
+@import url("./components/Popup/Popup.css");
