@@ -84,3 +84,15 @@
   margin: 0 0 0 7px;
   transition: 0.2s;
 }
+
+@media screen and (max-width: 768px) {	
+  .header__container {
+    margin: 0 30px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .header__container {
+    margin: 0 14px;
+  }
+}

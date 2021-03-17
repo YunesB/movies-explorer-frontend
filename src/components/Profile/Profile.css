@@ -1,7 +1,7 @@
 .profile {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 74px auto 70px;
   max-width: 410px;
@@ -58,4 +58,33 @@
 .profile__button_type_signout {
   color: #ee3465;
   margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    height: 100vh;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile {
+    height: 100vh;
+    margin: 0 30px;
+  }
+  
+  .profile__greeting {
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  .profile__text {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .profile__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

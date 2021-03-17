@@ -32,18 +32,6 @@
   color: black;
 }
 
-@media screen and (max-width: 550px) {	
-  .popup__container {	
-      max-width: 320px;	
-  }	
-}
-
-@media screen and (max-width: 425px) {	
-  .popup__container {	
-      max-width: 250px;	
-  }	
-}
-
 .popup__tooltip {
   display: flex;
   flex-direction: column;
@@ -64,18 +52,6 @@
   color: black;
 }
 
-@media screen and (max-width: 550px) {
-  .popup__tooltip {
-    max-width: 320px;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .popup__tooltip {
-    max-width: 250px;
-  }
-}
-
 .popup__tooltip-image {
   height: 120px;
   width: 120px;
@@ -89,26 +65,12 @@
   max-width: 368px;
 }
 
-@media screen and (max-width: 425px) {
-  .popup__tooltip-heading {
-    font-size: 15px;
-    line-height: 15px;
-  }
-}
-
 .popup__heading {
   max-width: 330px;
   margin: 34px 36px 48px 34px;
   font-weight: 900;
   font-size: 24px;
   line-height: 29px;
-}
-
-@media screen and (max-width: 425px) {
-  .popup__heading {
-      font-size: 20px;
-      line-height: 17px;
-  }
 }
 
 .popup__close {
@@ -138,11 +100,39 @@
   opacity: .6;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 550px) {	
+  .popup__container {	
+      max-width: 320px;	
+  }	
+
   .popup__close {
-      top: -32px;
-      right: -32px;
-      width: 30px;
-      height: 30px;
-  } 
+    top: -32px;
+    right: -32px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .popup__tooltip {
+    max-width: 320px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .popup__tooltip {
+    max-width: 250px;
+  }
+
+  .popup__tooltip-heading {
+    font-size: 15px;
+    line-height: 15px;
+  }
+
+  .popup__heading {
+    font-size: 20px;
+    line-height: 17px;
+  }
+
+  .popup__container {	
+    max-width: 250px;	
+  }	
 }
