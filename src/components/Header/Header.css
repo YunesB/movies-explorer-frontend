@@ -1,6 +1,7 @@
 .header {
   width: 100%;
   background-color: #073042;
+  position: relative;
 }
 
 .header__state_logged-in {
@@ -85,9 +86,42 @@
   transition: 0.2s;
 }
 
-@media screen and (max-width: 768px) {	
+.header__burger-button {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 29px;
+  right: 29px;
+  background-image: url("../../images/svg/burger.svg");
+  background-position: center;
+  background-color: unset;
+  background-repeat: no-repeat;
+  padding: 0;
+  border: none;
+  transition: 0.2s;
+}
+
+.header__burger-button_page_landing {
+  display: none;
+}
+
+@media screen and (min-width: 769px) {
+  .header__burger-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .header__container {
     margin: 0 30px;
+  }
+
+  .header__link-container {
+    display: none;
+  }
+
+  .header__link-container_page_landing {
+    display: flex;
   }
 }
 

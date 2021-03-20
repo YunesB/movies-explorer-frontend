@@ -5,7 +5,7 @@ import logo from '../../images/svg/header__logo.svg';
 function Authorization(props) {
   return (
     <section className="auth">
-      <Link to="/" className="auth__link">
+      <Link to="/" className="auth__logo-link">
         <img src={logo} alt="Logo" className="auth__logo" />
       </Link>
       <h2 className="auth__greeting">{props.greeting || 'Дороу!'}</h2>

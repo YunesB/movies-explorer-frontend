@@ -18,13 +18,9 @@ import MoviesCardsList from '../MoviesCardsList/MoviesCardsList';
 // Profile
 import Profile from '../Profile/Profile';
 
-// NotFound
+// Urils
 import NotFound from '../NotFound/NotFound';
-
-// Popup
 import Popup from '../Popup/Popup';
-
-// Preloader
 import Preloader from '../Preloader/Preloader';
 
 import Footer from '../Footer/Footer';

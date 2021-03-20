@@ -23,6 +23,9 @@
 /* Authorization */
 @import url("./components/Authorization/Authorization.css");
 
+/* Sidebar */
+@import url("./components/Sidebar/Sidebar.css");
+
 /* NotFound */
 @import url("./components/NotFound/NotFound.css");
 

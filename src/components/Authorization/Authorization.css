@@ -1,7 +1,17 @@
 .auth {
   max-width: 400px;
-  padding: 70px;
+  padding: 70px 0;
   margin: 0 auto;
+}
+
+.auth__logo-link {
+  width: 38px;
+  height: 38px;
+  transition: 0.2s;
+}
+
+.auth__logo-link:hover {
+  opacity: 0.7;
 }
 
 .auth__greeting {
@@ -24,7 +34,8 @@
   font-size: 10px;
   line-height: 12px;
   color: #8b8b8b;
-  margin: 0 0 20px 0;
+  margin: 0 auto 20px;
+  box-sizing: border-box;
 }
 
 .auth__input {
@@ -40,6 +51,7 @@
   font-weight: normal;
   font-size: 13px;
   line-height: 16px;
+  box-sizing: border-box;
 }
 
 .auth__submit {
@@ -52,6 +64,9 @@
   border-radius: 3px;
   height: 45px;
   border: none;
+  max-width: 370px;
+  width: 100%;
+  color: white;
 }
 
 .auth__submit_state_sign-in {
@@ -78,4 +93,29 @@
 
 .auth__link:hover {
   opacity: 0.7;
+}
+
+@media screen and (max-width: 450px) {
+  .auth {
+    max-width: 400px;
+    padding: 70px 0;
+    margin: 0 30px;
+  }
+
+  .auth__logo-link {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .auth__greeting {
+    display: flex;
+    justify-content: center;
+    margin: 50px auto 80px;
+  }
+
+  .auth__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }
