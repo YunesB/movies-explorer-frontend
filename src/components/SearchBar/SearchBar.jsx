@@ -1,10 +1,10 @@
 function SearchBar() {
   return (
     <section className="search-bar">
-      <form class="search-bar__form">
+      <form className="search-bar__form">
         <input type="text" placeholder="Фильм" className="search-bar__input" />
         <div className="search-bar__container">
-          <label for="checkbox" className="search-bar__switch">
+          <label htmlFor="checkbox" className="search-bar__switch">
             <input type="checkbox" className="search-bar__checkbox" id="checkbox"/>
             <span className="search-bar__slider"></span>
           </label>

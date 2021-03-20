@@ -101,10 +101,6 @@
   transition: 0.2s;
 }
 
-.header__burger-button_page_landing {
-  display: none;
-}
-
 @media screen and (min-width: 769px) {
   .header__burger-button {
     display: none;
