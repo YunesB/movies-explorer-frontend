@@ -55,6 +55,10 @@
   box-sizing: border-box;
 }
 
+.auth__input_error {
+  color: #ee3465;
+}
+
 .auth__submit {
   display: flex;
   justify-content: center;

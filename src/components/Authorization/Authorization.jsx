@@ -54,6 +54,11 @@ function Authorization(props) {
     }
   }
 
+  function resetFileds() {
+    setEmail('');
+    setPassword('');
+  }
+
 
   return (
     <section className="auth">
@@ -74,7 +79,7 @@ function Authorization(props) {
           <input 
             minLength="2" 
             maxLength="30" type="text"
-            className="auth__input" 
+            className={`auth__input ${emailValid ? '' : 'auth__input_error'}`}
             name="email" placeholder=""
             onChange={evt => emailHandler(evt)}
             value={email}
@@ -85,7 +90,7 @@ function Authorization(props) {
           <input 
             minLength="8" 
             maxLength="30" type="password"
-            className="auth__input" 
+            className={`auth__input ${passwordValid ? '' : 'auth__input_error'}`} 
             name="password" placeholder=""
             onChange={evt => passwordHandler(evt)}
             value={password}
@@ -101,7 +106,7 @@ function Authorization(props) {
           {props.submit || 'SUBMIT'}
         </button>
         <p className="auth__subline">{props.subline || 'SUBLINE'}
-          <Link to={props.link} className="auth__link">{props.linkText || 'LINK-TEXT'}</Link>
+          <Link to={props.link} className="auth__link" onClick={resetFileds}>{props.linkText || 'LINK-TEXT'}</Link>
         </p>
       </form>
 
