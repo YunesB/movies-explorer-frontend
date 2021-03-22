@@ -18,13 +18,17 @@ import MoviesCardsList from '../MoviesCardsList/MoviesCardsList';
 // Profile
 import Profile from '../Profile/Profile';
 
-// Urils
+// Utils
 import NotFound from '../NotFound/NotFound';
 import Popup from '../Popup/Popup';
 import Preloader from '../Preloader/Preloader';
 
 import Footer from '../Footer/Footer';
-import { Route, Switch, Redirect, withRouter, useHistory } from 'react-router-dom';
+import { Route, Switch, 
+  // Redirect, 
+  withRouter, 
+  // useHistory 
+} from 'react-router-dom';
 
 function App() {
 
