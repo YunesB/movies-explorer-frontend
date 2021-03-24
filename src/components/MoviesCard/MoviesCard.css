@@ -13,8 +13,9 @@
 
 .card__image {
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 10px 10px 0 0;
+  height: 190px;
 }
 
 .card__info-box {
@@ -24,11 +25,18 @@
   padding: 14px 12px;
 }
 
+.card__text-container {
+  max-width: 80%;
+}
+
 .card__title {
   font-weight: 500;
   font-size: 13px;
   line-height: 16px;
   margin: 0 0 10px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 15px;
 }
 
 .card__length-info {
@@ -43,7 +51,8 @@
   background-color: unset;
   background-image: url("../../images/svg/card_button.svg");
   background-position: center;
-  background-size: 100%;
+  background-size: 16px;
+  background-repeat: no-repeat;
   width: 16px;
   height: 16px;
   transition: 0.2s;
@@ -53,7 +62,7 @@
 }
 
 .card__button_state_saved {
-  background-color: #2BE080;
+  background-color: #2be080;
 }
 
 .card__button_state_cancel {
@@ -72,12 +81,6 @@
   }
 
   .card__image {
-    width: 100%;
-    object-fit: contain;
     border-radius: 10px 10px 0 0;
   }
-}
-
-@media screen and (max-width: 550px) {
-
 }

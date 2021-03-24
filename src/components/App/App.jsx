@@ -1,12 +1,10 @@
 import React from 'react';
+import { mainApi } from '../../utils/MainApi';
+import { moviesApi } from '../../utils/MoviesApi';
+import useWindowSize from '../../utils/useWindowSize'
 
 import Header from '../Header/Header';
-
-// Landing page
-import Navigation from '../Navigation/Navigation';
-import About from '../About/About';
-import Technologies from '../Technologies/Technologies';
-import Student from '../Student/Student';
+import Landing from '../Landing/Landing';
 
 // Authorization
 import Authorization from '../Authorization/Authorization';
@@ -20,8 +18,6 @@ import Profile from '../Profile/Profile';
 
 // Utils
 import NotFound from '../NotFound/NotFound';
-import Popup from '../Popup/Popup';
-import Preloader from '../Preloader/Preloader';
 
 import Footer from '../Footer/Footer';
 import { Route, Switch, 
@@ -32,30 +28,51 @@ import { Route, Switch,
 
 function App() {
 
-  const [isTooltipPopupOpened, setTooltipPopupOpened] = React.useState(false);
+  const windowWidth = useWindowSize();
+
+  const [ isTooltipPopupOpened, setTooltipPopupOpened ] = React.useState(false);
+  const [ movies, setMovies ] = React.useState([]);
+  const [ filteredMovies, setFilteredMovies ] = React.useState([]);
+  const [ errorMessage, setErrorMessage ] = React.useState('Пожалуйста, введите данные для поиска.');
+
+  function saveMoviesToLocalStorage(data) {
+    if (!localStorage.getItem('movies')) {
+      localStorage.setItem('movies', JSON.stringify(data));
+    } else {
+      localStorage.removeItem('movies');
+      localStorage.setItem('movies', JSON.stringify(data));
+    }
+  }
 
   function toggleTooltipPopup() {
     setTooltipPopupOpened(!isTooltipPopupOpened);
   }
+
+  function updateFilteredMovies(value) {
+    setFilteredMovies(value);
+  }
+
+  React.useEffect(() => {
+    Promise.all([
+      moviesApi.getInitialCards()])
+      .then((movies) => {
+        saveMoviesToLocalStorage(movies[0]);
+        setMovies(movies[0]);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        console.log('success!');
+      })
+  }, []);
 
   return (
     <div className="page">
       <div className="content">
         <Switch>
           <Route exact path="/">
-            <Header 
+            <Landing
               loggedIn={false}
             />
-            <Navigation />
-            <About />
-            <Technologies />
-            <Student />
-            <Footer />
-            <Popup 
-              isOpen={isTooltipPopupOpened}
-              onClose={toggleTooltipPopup}
-            />
-            <Preloader />
           </Route>
           <Route path="/sign-in">
             <Authorization 
@@ -81,16 +98,26 @@ function App() {
             <Header 
               loggedIn={true}
             />
-            <SearchBar />
-            <MoviesCardsList />
+            <SearchBar 
+              movies={movies}
+              updateFilteredMovies={updateFilteredMovies}
+              setErrorMessage={setErrorMessage}
+            />
+            <MoviesCardsList 
+              movies={filteredMovies}
+              errorMessage={errorMessage}
+            />
             <Footer />
           </Route>
           <Route path="/saved-movies">
             <Header
               loggedIn={true}
             />
-            <SearchBar />
-            <MoviesCardsList 
+            <SearchBar 
+              movies={movies}
+            />
+            <MoviesCardsList
+              movies={movies}
               savedMovies={true}
             />
             <Footer />

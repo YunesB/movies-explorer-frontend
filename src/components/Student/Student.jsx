@@ -1,9 +1,12 @@
 import student from '../../images/jpg/student_pic.jpg';
+import ScrollableAnchor from 'react-scrollable-anchor';
 
 function Student() {
   return (
     <section className="student">
-      <h2 className="student__heading">Студент</h2>
+      <ScrollableAnchor id={'student'}>
+        <h2 className="student__heading">Студент</h2>
+      </ScrollableAnchor>
       <div className="student__info-container">
         <div className="sudent__personal-info">
           <h3 className="student__title">Виталий</h3>

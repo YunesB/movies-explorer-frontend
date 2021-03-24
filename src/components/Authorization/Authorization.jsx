@@ -30,12 +30,12 @@ function Authorization(props) {
     }
   };
 
-  const passwordHandler = (e) => {
-    setPassword(e.target.value);
-    if (e.target.value.length < 8 && e.target.value.length >= 1) {
+  const passwordHandler = (evt) => {
+    setPassword(evt.target.value);
+    if (evt.target.value.length < 8 && evt.target.value.length >= 1) {
       setPasswordError('Пароль должен содержать не менее 8 символов');
       setPasswordValid(false);
-    } else if (e.target.value === '') {
+    } else if (evt.target.value === '') {
       setPasswordError('Пожалуйста, заполните это поле');
       setPasswordValid(false);
     } else {
