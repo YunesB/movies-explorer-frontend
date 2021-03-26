@@ -129,7 +129,6 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setLoggedInUser(res.email);
           }
         })
         .catch((err) => {
@@ -217,14 +216,17 @@ function App() {
               </>
             )}>
             </ProtectedRoute>
-            <Route path="/profile">
-              <Header
-                loggedIn={isLoggedIn}
-              />
-              <Profile 
-                signOut={signOut}
-              />
-            </Route>
+            <ProtectedRoute path="/profile" loggedIn={isLoggedIn} component={() => (
+              <>
+                <Header
+                  loggedIn={isLoggedIn}
+                />
+                <Profile 
+                  signOut={signOut}
+                />
+              </>
+            )}>
+            </ProtectedRoute>
             <Route path="/movies">
               {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/sign-up" />}
             </Route>
