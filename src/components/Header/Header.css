@@ -32,6 +32,11 @@
   transition: 0.2s;
 }
 
+.header__link_active {
+  padding-bottom: 2px;
+  border-bottom: 1px solid white;
+}
+
 .header__link_state_logged-in {
   margin: 0 20px 0 0;
 }
@@ -61,6 +66,13 @@
   font-size: 12px;
   line-height: 16px;
   transition: 0.2s;
+}
+
+.header__link-box_active {
+  border: 1px solid white;
+  padding: 0 0 0 10px;
+  margin: 0 0 0 20px;
+  border-radius: 15px;
 }
 
 .header__link-box:hover {

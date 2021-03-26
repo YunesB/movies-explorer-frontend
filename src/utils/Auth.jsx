@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.webmesto.students.nomoreparties.space';
+export const BASE_URL = 'https://www.api.webmovies.students.nomoredomains.work';
 
 function handleRes(res) {
   if (res.ok) {
@@ -8,7 +8,7 @@ function handleRes(res) {
   }
 }
 
-export const signUp = (email, password) => {
+export const signUp = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     mode: 'cors',
@@ -16,7 +16,7 @@ export const signUp = (email, password) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ name, email, password })
   })
     .then(handleRes)
 }

@@ -4,24 +4,40 @@ import logo from '../../images/svg/header__logo.svg';
 
 function Authorization(props) {
 
+  const [ name, setName ] = React.useState('');
   const [ email, setEmail ] = React.useState('');
   const [ password, setPassword ] = React.useState('');
 
+  const [ nameError, setNameError ] = React.useState('');
   const [ emailError, setEmailError ] = React.useState('');
   const [ passwordError, setPasswordError ] = React.useState('');
 
+  const [ nameValid, setNameValid ] = React.useState(false);
   const [ emailValid, setEmailValid ] = React.useState(false);
   const [ passwordValid, setPasswordValid ] = React.useState(false);
 
   const [ submitDisabled, setSubmitDisabled ] = React.useState(true);
 
-  const emailHandler = (e) => {
-    setEmail(e.target.value);
+  const nameHandler = (evt) => {
+    setName(evt.target.value);
+    if (props.signIn === true) {
+      setNameValid(true);
+    } else if (evt.target.value === '') {
+      setNameError('Пожалуйста, заполните это поле');
+      setNameValid(false);
+    } else {
+      setNameError('');
+      setNameValid(true);
+    }
+  }
+
+  const emailHandler = (evt) => {
+    setEmail(evt.target.value);
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!re.test(String(e.target.value).toLowerCase()) && e.target.value.length >= 1) {
+    if (!re.test(String(evt.target.value).toLowerCase()) && evt.target.value.length >= 1) {
       setEmailError('Некорректный Email');
       setEmailValid(false);
-    } else if (e.target.value === '') {
+    } else if (evt.target.value === '') {
       setEmailError('Пожалуйста, заполните это поле');
       setEmailValid(false);
     } else {
@@ -44,8 +60,19 @@ function Authorization(props) {
     }
   };
 
-  function submitHandler() {
+  function submitLoginHandler() {
+    setNameValid(true);
     if (emailValid && passwordValid) {
+      setSubmitDisabled(false);
+      return submitDisabled;
+    } else {
+      setSubmitDisabled(true);
+      return submitDisabled;
+    }
+  }
+
+  function submitRegistrationHandler() {
+    if (nameValid && emailValid && passwordValid) {
       setSubmitDisabled(false);
       return submitDisabled;
     } else {
@@ -59,6 +86,19 @@ function Authorization(props) {
     setPassword('');
   }
 
+  function handleRegistration(evt) {
+    evt.preventDefault();
+    props.handleSubmit(name, email, password);
+    resetFileds();
+  };
+
+  function handleLogin(evt) {
+    console.log(name);
+    evt.preventDefault();
+    props.handleSubmit(email, password);
+    resetFileds();
+  };
+
 
   return (
     <section className="auth">
@@ -66,14 +106,20 @@ function Authorization(props) {
         <img src={logo} alt="Logo" className="auth__logo" />
       </Link>
       <h2 className="auth__greeting">{props.greeting || 'GREETINGS!'}</h2>
-      <form className="auth__form" onChange={submitHandler}>
+      <form className="auth__form" 
+        onChange={props.signIn ? submitLoginHandler : submitRegistrationHandler} 
+        onSubmit={props.signIn ? handleLogin : handleRegistration}
+      >
         <label className={`${props.signIn ? 'hidden' : 'auth__field'}`}>Имя
           <input 
             maxLength="30" type="text"
-            className="auth__input" 
+            className={`auth__input ${nameValid ? '' : 'auth__input_error'}`} 
             name="name" placeholder=""
+            onChange={evt => nameHandler(evt)}
+            value={name}
+            disabled={props.signIn}
           />
-          <span className="auth__error"></span>
+          <span className={`${nameError ? 'auth__error' : ''}`}>{nameError}</span>
         </label>
         <label className="auth__field">E-mail
           <input 
@@ -99,14 +145,14 @@ function Authorization(props) {
         </label>
         <button 
           type="submit" 
-          className={`auth__submit ${emailValid && passwordValid ? '': 'auth__submit_disabled'} 
+          className={`auth__submit ${emailValid && passwordValid && nameValid ? '': 'auth__submit_disabled'} 
             ${props.signIn ? 'auth__submit_state_sign-in' : ''}`}
           disabled={submitDisabled}
         >
           {props.submit || 'SUBMIT'}
         </button>
         <p className="auth__subline">{props.subline || 'SUBLINE'}
-          <Link to={props.link} className="auth__link" onClick={resetFileds}>{props.linkText || 'LINK-TEXT'}</Link>
+          <Link to={props.link} className="auth__link">{props.linkText || 'LINK-TEXT'}</Link>
         </p>
       </form>
 

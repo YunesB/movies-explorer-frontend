@@ -5,13 +5,25 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardsList(props) {
 
-  const [ numberOfMovies, setNumberOfMovies ] = React.useState(12);
+  let numberOfCards = 12;
+  let numberOfNewCards = 4;
 
-  function sliceArray() {
-    setNumberOfMovies(numberOfMovies + 4);
+  if (props.windowWidth > 768) {
+    numberOfCards = 12;
+    numberOfNewCards = 4;
+  } else if (props.windowWidth > 550) {
+    numberOfCards = 8;
+    numberOfNewCards = 2;
+  } else if (props.windowWidth <= 550) {
+    numberOfCards = 5;
+    numberOfNewCards = 2;
   }
 
-  // console.log(numberOfMovies);
+  const [ numberOfMovies, setNumberOfMovies ] = React.useState(numberOfCards);
+
+  function sliceArray() {
+    setNumberOfMovies(numberOfMovies + numberOfNewCards);
+  }
 
   return (
     <section className="cards">
@@ -24,6 +36,7 @@ function MoviesCardsList(props) {
           <MoviesCard
               card={movie}
               key={movie.id || movie._id}
+              savedMovies={props.savedMovies}
               onCardClick={props.onCardClick}
               onLikeClick={props.onLikeClick}
               onDeleteClick={props.onDeleteClick}

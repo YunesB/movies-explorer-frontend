@@ -12,7 +12,7 @@ class MoviesApi {
     return res.json();
   }
 
-  getInitialCards() {
+  getMovies() {
     return fetch(`${this._address}`,
       {
         headers: {

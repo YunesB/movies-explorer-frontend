@@ -2,7 +2,7 @@ import React from 'react';
 import noPhoto from '../../images/jpg/no_photo.png';
 
 function MoviesCards(props) {
-
+  
   const cardData = props.card;
   const MOVIES_URL = 'https://api.nomoreparties.co';
 
@@ -20,20 +20,22 @@ function MoviesCards(props) {
 
   return (
     <li className="card">
-      <img src={`${cardData.image !== null
-                  ? `${MOVIES_URL}${cardData.image.url}`
-                  : noPhoto}`} 
-          alt={cardData.nameRU} 
-          className="card__image" 
-        />
-      <div className="card__info-box">
-        <div className="card__text-container">
-          <p className="card__title">{cardData.nameRU}</p>
-          <p className="card__length-info">{convertTime(cardData.duration)}</p>
+      <a href={cardData.trailerLink} target="_blank" rel="noreferrer" className="card__trailer-link">
+        <img src={`${cardData.image !== null
+                    ? `${MOVIES_URL}${cardData.image.url}`
+                    : noPhoto}`} 
+            alt={cardData.nameRU} 
+            className="card__image" 
+          />
+        <div className="card__info-box">
+          <div className="card__text-container">
+            <p className="card__title">{cardData.nameRU}</p>
+            <p className="card__length-info">{convertTime(cardData.duration)}</p>
+          </div>
+          <button type="button" className={`card__button ${props.savedMovies ? 'hidden' : isSaved ? 'card__button_state_saved': ''}`} onClick={saveMovie} />
+          <button type="button" className={`card__button card__button_state_cancel ${props.savedMovies ? '' : 'hidden'}`} />
         </div>
-        <button type="button" className={`card__button ${props.savedMovies ? 'hidden' : isSaved ? 'card__button_state_saved': ''}`} onClick={saveMovie} />
-        <button type="button" className={`card__button card__button_state_cancel ${props.savedMovies ? '' : 'hidden'}`} />
-      </div>
+      </a>
     </li>
   );
 }
