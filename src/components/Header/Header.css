@@ -73,6 +73,7 @@
   padding: 0 0 0 10px;
   margin: 0 0 0 20px;
   border-radius: 15px;
+  color: black;
 }
 
 .header__link-box:hover {
@@ -111,6 +112,10 @@
   padding: 0;
   border: none;
   transition: 0.2s;
+}
+
+.header__burger-button_landing {
+  background-color: #073042;
 }
 
 @media screen and (min-width: 769px) {

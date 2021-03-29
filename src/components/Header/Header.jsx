@@ -34,14 +34,25 @@ function Header(props) {
           <Link to="/sign-in" className="header__link header__link_outlined">Войти</Link>
         </div>
         <div className={`${props.loggedIn ? 'header__link-container' : 'hidden'}`}>
-          <NavLink to="/movies" className="header__link header__link_state_logged-in" activeClassName="header__link_active">Фильмы</NavLink>
-          <NavLink to="/saved-movies" className="header__link header__link_state_logged-in" activeClassName="header__link_active">Сохраненные фильмы</NavLink>
-          <NavLink to="/profile" className="header__link-box" activeClassName="header__link-box_active">
-            Аккаунт
+          <NavLink to="/movies" 
+            className="header__link header__link_state_logged-in" 
+            activeClassName="header__link_active"
+          >Фильмы</NavLink>
+          <NavLink to="/saved-movies" 
+            className="header__link header__link_state_logged-in" 
+            activeClassName="header__link_active"
+          >Сохраненные фильмы</NavLink>
+          <NavLink to="/profile" 
+            className="header__link-box" 
+            activeClassName="header__link-box_active"
+          >Аккаунт
             <div className="header__link-icon"></div>
           </NavLink>
         </div>
-        <button type="button" className={`${areLinksDisplayed ? 'hidden' : 'header__burger-button'}`} onClick={toggleSidebar}></button>
+        <button type="button" 
+          className={`${props.loggedIn ? 'header__burger-button' : areLinksDisplayed ? 'hidden' : 'header__burger-button_landing'}`} 
+          onClick={toggleSidebar}
+        />
       </div>
       <Sidebar
         isOpen={isSidebarOpen}

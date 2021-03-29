@@ -41,6 +41,7 @@ function App() {
   const [ permissionsChecked, setPermissionsChecked ] = React.useState(false);
 
   const [ isTooltipPopupOpened, setTooltipPopupOpened ] = React.useState(false);
+  const [ isPageLoading, setPageLoading ] = React.useState(false);
 
   const [ movies, setMovies ] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
@@ -64,7 +65,6 @@ function App() {
       moviesApi.getMovies(),
     ])
       .then(([userData, savedMovies, movies]) => {
-        console.log(savedMovies);
         setCurrentUser(userData);
         setSavedMovies(savedMovies);
         saveMoviesToLocalStorage(movies);
@@ -92,8 +92,7 @@ function App() {
         .finally(() => {
           setPermissionsChecked(true);
         })
-      }
-    else{
+    } else {
       setPermissionsChecked(true);
     }
   };
@@ -257,7 +256,8 @@ function App() {
                   <Header
                     loggedIn={isLoggedIn}
                   />
-                  <Profile 
+                  <Profile
+                    onSubmit={handleUpdateUser}
                     signOut={signOut}
                   />
                 </>

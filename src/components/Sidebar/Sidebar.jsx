@@ -17,13 +17,13 @@ function Sidebar(props) {
             <NavLink exact={true} to="/" className="sidebar__link" activeClassName="sidebar__link_active" onClick={props.toggleSidebar}>Главная</NavLink>
           </li>
           <li className="sidebar__list-item">
-            <NavLink to="/main" className="sidebar__link" activeClassName="sidebar__link_active" onClick={props.toggleSidebar}>Фильмы</NavLink>
+            <NavLink to="/movies" className="sidebar__link" activeClassName="sidebar__link_active" onClick={props.toggleSidebar}>Фильмы</NavLink>
           </li>
           <li className="sidebar__list-item">
             <NavLink to="/saved-movies" className="sidebar__link" activeClassName="sidebar__link_active" onClick={props.toggleSidebar}>Сохраненные фильмы</NavLink>
           </li>
           <li className="sidebar__list-item">
-            <NavLink to="/profile" className="sidebar__link-box" activeClassName="sidebar__link_active" onClick={props.toggleSidebar}>
+            <NavLink to="/profile" className="sidebar__link-box" activeClassName="sidebar__link-box_active" onClick={props.toggleSidebar}>
               Аккаунт
               <div className="header__link-icon"></div>
             </NavLink>
