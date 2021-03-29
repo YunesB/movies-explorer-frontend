@@ -37,13 +37,16 @@ function MoviesCardsList(props) {
               card={movie}
               key={movie.id || movie._id}
               savedMovies={props.savedMovies}
-              onCardClick={props.onCardClick}
-              onLikeClick={props.onLikeClick}
-              onDeleteClick={props.onDeleteClick}
+              savedMoviesArray={props.savedMoviesArray}
+              saveMovie={props.saveMovie}
+              deleteMovie={props.deleteMovie}
           />
         ))}
       </ul>
-      <button type="button" className={`cards__button ${props.movies.length <= 12 || numberOfMovies >= props.movies.length ? 'cards__button_state_hidden' : ''}`} onClick={sliceArray}>Ещё</button>
+      <button type="button" 
+        className={`cards__button ${props.movies.length <= 12 || numberOfMovies >= props.movies.length ? 'cards__button_state_hidden' : ''}`} 
+        onClick={sliceArray}>Ещё
+      </button>
     </section>
   );
 }

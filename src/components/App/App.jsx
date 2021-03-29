@@ -24,7 +24,9 @@ import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 
 import Footer from '../Footer/Footer';
-import { Route, Switch, 
+import { 
+  Route, 
+  Switch, 
   Redirect, 
   withRouter, 
   useHistory 
@@ -32,20 +34,70 @@ import { Route, Switch,
 
 function App() {
 
-  let [ isLoggedInUser, setLoggedInUser ] = React.useState('');
-
   const windowWidth = useWindowSize();
 
+  const [ isLoggedIn, setLoggedIn ] = React.useState(false);
+  const [ currentUser, setCurrentUser ] = React.useState({});
+  const [ permissionsChecked, setPermissionsChecked ] = React.useState(false);
+
   const [ isTooltipPopupOpened, setTooltipPopupOpened ] = React.useState(false);
+
   const [ movies, setMovies ] = React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  
   const [ filteredMovies, setFilteredMovies ] = React.useState([]);
   const [ errorMessage, setErrorMessage ] = React.useState('Пожалуйста, введите данные для поиска.');
 
-  const [isLoggedIn, setLoggedIn] = React.useState(false);
-  const [currentUser, setCurrentUser] = React.useState({});
-
   const history = useHistory();
 
+  React.useEffect(() => {
+    tokenCheck();
+  }, [])
+
+  React.useEffect(() => {
+    if (!isLoggedIn){
+      return;
+    }
+    Promise.all([
+      mainApi.getUserInfo(),
+      mainApi.getSavedMovies(),
+      moviesApi.getMovies(),
+    ])
+      .then(([userData, savedMovies, movies]) => {
+        console.log(savedMovies);
+        setCurrentUser(userData);
+        setSavedMovies(savedMovies);
+        saveMoviesToLocalStorage(movies);
+        setMovies(movies);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        console.log('success!');
+      })
+  }, [isLoggedIn]);
+
+  function tokenCheck() {
+    let jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      return auth.checkTokenValidity(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            history.push('/movies');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setPermissionsChecked(true);
+        })
+      }
+    else{
+      setPermissionsChecked(true);
+    }
+  };
+  
   function saveMoviesToLocalStorage(data) {
     if (!localStorage.getItem('movies')) {
       localStorage.setItem('movies', JSON.stringify(data));
@@ -63,21 +115,36 @@ function App() {
     setFilteredMovies(value);
   }
 
-  React.useEffect(() => {
-    tokenCheck();
-    Promise.all([
-      mainApi.getUserInfo(),
-      moviesApi.getMovies()])
-      .then(([userData, movies]) => {
-        setCurrentUser(userData);
-        saveMoviesToLocalStorage(movies);
-        setMovies(movies);
+  function handleSaveMovie(movie) {
+    mainApi.saveMovie(movie)
+      .then((savedMovie) => {
+        setSavedMovies([savedMovie, ...savedMovies]);
+        console.log(savedMovies);
       })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        console.log('success!');
+      .catch((err) => console.log(err));
+  }
+
+  function handleRemoveSavedMovie(movie) {
+    mainApi.removeSavedMovie(movie)
+      .then((deletedMovie) => {
+        const refreshMovies = savedMovies.filter((c) => c._id !== deletedMovie._id);
+        setSavedMovies(refreshMovies);
+        console.log(refreshMovies);
       })
-  }, []);
+      .catch((err) => console.log(err));
+  }
+
+  function handleUpdateUser(user) {
+    mainApi.setUserInfo(user)
+      .then((user) => {
+        console.log(user);
+        setCurrentUser(user)
+      })
+      .catch((err) =>
+        console.log(err))
+      .finally(() =>
+        console.log('finally'))
+  }
 
   function handleLogin(email, password) {
     if (!email || !password) {
@@ -88,11 +155,9 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
-          tokenCheck(); 
-          console.log('test')     
-          history.push('/movies');
+          tokenCheck();
+          window.location.reload();        
         } else {
-          console.log(data);
           return
         }
       })
@@ -122,122 +187,115 @@ function App() {
       })
   }
 
-  function tokenCheck() {
-    let jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.checkTokenValidity(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-  }
-
   function signOut() {
     localStorage.removeItem('jwt');
-    setLoggedInUser(false);
+    setLoggedIn(false);
     history.push('/sign-in');
   };
 
+  if (!permissionsChecked){
+    return null;
+  }
 
-  return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <div className="content">
-          <Switch>
-            <Route exact path="/">
-              <Landing
-                loggedIn={isLoggedIn}
-              />
-            </Route>
-            <Route path="/sign-in">
-              <Authorization 
-              signIn={true}
-              greeting={'Рады видеть!'}
-              submit={'Войти'}
-              subline={'Ещё не зарегистрированы? '}
-              linkText={'Регистрация'}
-              link={'/sign-up'}
-              handleSubmit={handleLogin}
-              />
-            </Route>
-            <Route path="/sign-up">
-              <Authorization 
-              signIn={false}
-              greeting={'Добро пожаловать!'}
-              submit={'Зарегистрироваться'}
-              subline={'Уже зарегистрированы? '}
-              linkText={'Войти'}
-              link={'/sign-in'}
-              handleSubmit={handleRegistration}
-              />
-            </Route>
-            <ProtectedRoute path="/movies" loggedIn={isLoggedIn} component={() => (
-              <>
-                <Header 
+    return (
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="page">
+          <div className="content">
+            <Switch>
+              <Route exact path="/">
+                <Landing
                   loggedIn={isLoggedIn}
                 />
-                <SearchBar 
-                  movies={movies}
-                  updateFilteredMovies={updateFilteredMovies}
-                  setErrorMessage={setErrorMessage}
+              </Route>
+              <ProtectedRoute path="/movies" loggedIn={isLoggedIn} component={() => (
+                <>
+                  <Header 
+                    loggedIn={isLoggedIn}
+                  />
+                  <SearchBar 
+                    movies={movies}
+                    updateFilteredMovies={updateFilteredMovies}
+                    setErrorMessage={setErrorMessage}
+                  />
+                  <MoviesCardsList 
+                    movies={filteredMovies}
+                    savedMovies={false}
+                    savedMoviesArray={savedMovies}
+                    errorMessage={errorMessage}
+                    windowWidth={windowWidth}
+                    saveMovie={handleSaveMovie}
+                    deleteMovie={handleRemoveSavedMovie}
+                  />
+                  <Footer />
+                </>
+              )}>
+              </ProtectedRoute>
+              <ProtectedRoute path="/saved-movies" loggedIn={isLoggedIn} component={() => (
+                <>
+                  <Header
+                    loggedIn={isLoggedIn}
+                  />
+                  <SearchBar 
+                    movies={savedMovies}
+                    updateFilteredMovies={updateFilteredMovies}
+                    setErrorMessage={setErrorMessage}
+                  />
+                  <MoviesCardsList
+                    movies={savedMovies}
+                    savedMovies={true}
+                    savedMoviesArray={savedMovies}
+                    errorMessage={errorMessage}
+                    windowWidth={windowWidth}
+                    deleteMovie={handleRemoveSavedMovie}
+                  />
+                  <Footer />
+                </>
+              )}>
+              </ProtectedRoute>
+              <ProtectedRoute path="/profile" loggedIn={isLoggedIn} component={() => (
+                <>
+                  <Header
+                    loggedIn={isLoggedIn}
+                  />
+                  <Profile 
+                    signOut={signOut}
+                  />
+                </>
+              )}>
+              </ProtectedRoute>
+              <Route path="/movies">
+                {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/sign-up" />}
+              </Route>
+              <Route path="/sign-in">
+                <Authorization 
+                  signIn={true}
+                  greeting={'Рады видеть!'}
+                  submit={'Войти'}
+                  subline={'Ещё не зарегистрированы? '}
+                  linkText={'Регистрация'}
+                  link={'/sign-up'}
+                  handleSubmit={handleLogin}
                 />
-                <MoviesCardsList 
-                  movies={filteredMovies}
-                  savedMovies={false}
-                  errorMessage={errorMessage}
-                  windowWidth={windowWidth}
+              </Route>
+              <Route path="/sign-up">
+                <Authorization 
+                  signIn={false}
+                  greeting={'Добро пожаловать!'}
+                  submit={'Зарегистрироваться'}
+                  subline={'Уже зарегистрированы? '}
+                  linkText={'Войти'}
+                  link={'/sign-in'}
+                  handleSubmit={handleRegistration}
                 />
-                <Footer />
-              </>
-            )}>
-            </ProtectedRoute>
-            <ProtectedRoute path="/saved-movies" loggedIn={isLoggedIn} component={() => (
-              <>
-                <Header
-                  loggedIn={isLoggedIn}
-                />
-                <SearchBar 
-                  movies={movies}
-                  updateFilteredMovies={updateFilteredMovies}
-                  setErrorMessage={setErrorMessage}
-                />
-                <MoviesCardsList
-                  movies={movies}
-                  savedMovies={true}
-                  errorMessage={errorMessage}
-                  windowWidth={windowWidth}
-                />
-                <Footer />
-              </>
-            )}>
-            </ProtectedRoute>
-            <ProtectedRoute path="/profile" loggedIn={isLoggedIn} component={() => (
-              <>
-                <Header
-                  loggedIn={isLoggedIn}
-                />
-                <Profile 
-                  signOut={signOut}
-                />
-              </>
-            )}>
-            </ProtectedRoute>
-            <Route path="/movies">
-              {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/sign-up" />}
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </div>
         </div>
-      </div>
-    </CurrentUserContext.Provider>
-  );
+      </CurrentUserContext.Provider>
+    );
 }
 
 export default withRouter(App);

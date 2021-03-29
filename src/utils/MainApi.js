@@ -40,32 +40,44 @@ class MainApi {
       )
   }
 
-  changeLikeCardStatus(card, isLiked) {
-    if (isLiked) {
-      return fetch(`${this._address}/cards/${card._id}/likes`,
-        {
-          method: 'PUT',
-          headers: {
-            "Authorization": `Bearer ${this._token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((res) =>
-          this.handleResponse(res)
-        )
-    } else {
-      return fetch(`${this._address}/cards/${card._id}/likes`,
-        {
-          method: 'DELETE',
-          headers: {
-            "Authorization": `Bearer ${this._token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((res) =>
-          this.handleResponse(res)
-        )
-    }
+  getSavedMovies() {
+    return fetch(`${this._address}/movies`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${this._token}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    .then((res) =>
+        this.handleResponse(res)
+    )
+  };
+
+  saveMovie(movie) {
+    return fetch(`${this._address}/movies`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${this._token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(movie),
+    })
+    .then((res) =>
+      this.handleResponse(res)
+    )
+  }
+
+  removeSavedMovie(movieId) {
+    return fetch(`${this._address}/movies/${movieId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${this._token}`,
+        'Content-Type': 'application/json'
+      },
+    })
+    .then((res) =>
+      this.handleResponse(res)
+    )
   }
 }
 

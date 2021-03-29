@@ -48,7 +48,7 @@ function Authorization(props) {
 
   const passwordHandler = (evt) => {
     setPassword(evt.target.value);
-    if (evt.target.value.length < 8 && evt.target.value.length >= 1) {
+    if (evt.target.value.length <= 7 && evt.target.value.length >= 1) {
       setPasswordError('Пароль должен содержать не менее 8 символов');
       setPasswordValid(false);
     } else if (evt.target.value === '') {
@@ -93,7 +93,6 @@ function Authorization(props) {
   };
 
   function handleLogin(evt) {
-    console.log(name);
     evt.preventDefault();
     props.handleSubmit(email, password);
     resetFileds();
