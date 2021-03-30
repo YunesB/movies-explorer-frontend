@@ -7,6 +7,7 @@ function MoviesCardsList(props) {
 
   let numberOfCards = 12;
   let numberOfNewCards = 4;
+  const [ numberOfMovies, setNumberOfMovies ] = React.useState(numberOfCards);
 
   if (props.windowWidth > 768) {
     numberOfCards = 12;
@@ -18,8 +19,6 @@ function MoviesCardsList(props) {
     numberOfCards = 5;
     numberOfNewCards = 2;
   }
-
-  const [ numberOfMovies, setNumberOfMovies ] = React.useState(numberOfCards);
 
   function sliceArray() {
     setNumberOfMovies(numberOfMovies + numberOfNewCards);

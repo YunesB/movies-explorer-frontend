@@ -8,6 +8,19 @@ function MoviesCards(props) {
   const MOVIES_URL = 'https://api.nomoreparties.co';
   const [ isSaved, setIsSaved ] = React.useState(false);
 
+  React.useEffect(() => {
+    setInitialLikes();
+  }, [setInitialLikes]);
+
+  function setInitialLikes() {
+    const processedCard = props.savedMoviesArray.find((card) => returnSavedMovie(card));
+    if (processedCard) {
+      setIsSaved(true);
+    } else {
+      setIsSaved(false);
+    }
+  }
+
   function returnSavedMovie(card) {
     return card.movieId === cardData.id;
   }
@@ -53,7 +66,6 @@ function MoviesCards(props) {
     if (!props.savedMovies) {
       const processedCard = props.savedMoviesArray.find((card) => returnSavedMovie(card));
       props.deleteMovie(processedCard._id);
-      console.log(isSaved);
       setIsSaved(false);
     } else {
       props.deleteMovie(cardData._id);

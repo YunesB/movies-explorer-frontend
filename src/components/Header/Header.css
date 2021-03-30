@@ -2,6 +2,7 @@
   width: 100%;
   background-color: #073042;
   position: relative;
+  z-index: 4;
 }
 
 .header__state_logged-in {
