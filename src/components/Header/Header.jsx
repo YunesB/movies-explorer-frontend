@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, useHistory, NavLink  } from 'react-router-dom';
 import logo from '../../images/svg/header__logo.svg';
-
-// Sidebar
 import Sidebar from '../Sidebar/Sidebar';
 
 function Header(props) {

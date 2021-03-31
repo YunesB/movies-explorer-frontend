@@ -1,3 +1,5 @@
+import * as CONSTANTS from './constants';
+
 class MainApi {
   constructor({ address }) {
     this._address = address;
@@ -82,6 +84,5 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  address: 'https://www.api.webmovies.students.nomoredomains.work'
-  // address: 'http://localhost:3007'
+  address: CONSTANTS.BASE_URL
 });

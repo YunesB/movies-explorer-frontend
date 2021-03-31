@@ -7,13 +7,13 @@ import ProtectedRoute from '../../utils/ProtectedRoute';
 import * as auth from '../../utils/Auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-import RouteMovies from '../RouteMovies/RouteMovies';
-import RouteSavedMovies from '../RouteSavedMovies/RouteSavedMovies';
+import RouteComposer from '../RouteComposer/RouteComposer';
 import RouteProfile from '../RouteProfile/RouteProfile';
 import Landing from '../Landing/Landing';
 
 import Authorization from '../Authorization/Authorization';
 import Preloader from '../Preloader/Preloader';
+import Popup from '../Popup/Popup';
 import NotFound from '../NotFound/NotFound';
 
 import { 
@@ -33,15 +33,14 @@ function App() {
   const [ permissionsChecked, setPermissionsChecked ] = React.useState(false);
 
   const [ isTooltipPopupOpened, setTooltipPopupOpened ] = React.useState(false);
+  const [ isActionSuccessful, setActionSuccessful ] = React.useState(false);
   const [ isPageLoading, setPageLoading ] = React.useState(false);
 
   const [ movies, setMovies ] = React.useState([]);
   const [ savedMovies, setSavedMovies ] = React.useState([]);
-  const [ isMovieSaved, setMovieSaved ] = React.useState(false);
   
   const [ filteredMovies, setFilteredMovies ] = React.useState([]);
   const [ filteredSavedMovies, setFilteredSavedMovies ] = React.useState([]);
-  const [ errorMessage, setErrorMessage ] = React.useState('Пожалуйста, введите данные для поиска.');
 
   const history = useHistory();
 
@@ -68,7 +67,7 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => {
         setPageLoading(false);
-        console.log('success!');
+        console.log('App boot success');
       })
   }, [isLoggedIn]);
 
@@ -79,7 +78,6 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            history.push('/movies');
           }
         })
         .catch((err) => {
@@ -102,8 +100,8 @@ function App() {
     }
   }
 
-  function toggleTooltipPopup() {
-    setTooltipPopupOpened(!isTooltipPopupOpened);
+  function closeTooltipPopup() {
+    setTooltipPopupOpened(false);
   }
 
   function updateFilteredMovies(value) {
@@ -118,17 +116,15 @@ function App() {
     mainApi.saveMovie(movie)
       .then((savedMovie) => {
         setSavedMovies([savedMovie, ...savedMovies]);
-        console.log(savedMovies);
       })
       .catch((err) => console.log(err))
   }
 
-  function handleRemoveSavedMovie(movie) {
-    mainApi.removeSavedMovie(movie)
+  function handleRemoveSavedMovie(movieId) {
+    mainApi.removeSavedMovie(movieId)
       .then((deletedMovie) => {
         const refreshMovies = savedMovies.filter((c) => c._id !== deletedMovie._id);
         setSavedMovies(refreshMovies);
-        console.log(refreshMovies);
       })
       .catch((err) => console.log(err));
   }
@@ -137,10 +133,15 @@ function App() {
     setPageLoading(true);
     mainApi.setUserInfo(user)
       .then((user) => {
+        setTooltipPopupOpened(true);
+        setActionSuccessful(true);
         setCurrentUser(user)
       })
-      .catch((err) =>
-        console.log(err))
+      .catch((err) => {
+        console.log(err)
+        setTooltipPopupOpened(true);
+        setActionSuccessful(false);
+      })
       .finally(() => {
         setPageLoading(false);
       })
@@ -153,17 +154,20 @@ function App() {
       return;
     }
     auth.signIn(email, password)
-      .then((data) => {
+      .then((data) => {  
+        history.push('/movies');
+        window.location.reload();
         if (data.token) {
           localStorage.setItem('jwt', data.token);
           tokenCheck();
-          window.location.reload();        
         } else {
           return
         }
       })
       .catch((err) => {
         console.log(err);
+        setTooltipPopupOpened(true);
+        setActionSuccessful(false);
       })
       .finally(() => {
         setPageLoading(false);
@@ -177,11 +181,14 @@ function App() {
         if (res) {
           history.push('/sign-in');
         } else {
-          console.log('error');
+          setTooltipPopupOpened(true);
+          setActionSuccessful(false);
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        setTooltipPopupOpened(true);
+        setActionSuccessful(false);
       })
       .finally(() => {
         setPageLoading(false);
@@ -191,7 +198,9 @@ function App() {
   function signOut() {
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    history.push('/sign-in');
+    setMovies([]);
+    setCurrentUser({});
+    history.push('/');
   };
 
   if (!permissionsChecked){
@@ -205,6 +214,11 @@ function App() {
             <Preloader 
               isPageLoading={isPageLoading}
             />
+            <Popup 
+              isOpen={isTooltipPopupOpened}
+              isActionSuccessful={isActionSuccessful}
+              onClose={closeTooltipPopup}
+            />
             <Switch>
               <Route exact path="/">
                 <Landing
@@ -212,36 +226,32 @@ function App() {
                 />
               </Route>
               <ProtectedRoute path="/movies"
-                component={RouteMovies}
+                component={RouteComposer}
                 loggedIn={isLoggedIn}
 
                 movies={movies}
                 filteredMovies={filteredMovies}
 
                 updateFilteredMovies={updateFilteredMovies}
-                setErrorMessage={setErrorMessage}
 
                 savedMovies={false}
                 savedMoviesArray={savedMovies}
-                errorMessage={errorMessage}
                 windowWidth={windowWidth}
 
                 saveMovie={handleSaveMovie}
                 deleteMovie={handleRemoveSavedMovie}
               />
               <ProtectedRoute path="/saved-movies"
-                component={RouteSavedMovies}
+                component={RouteComposer}
                 loggedIn={isLoggedIn}
 
                 movies={savedMovies}
                 filteredMovies={savedMovies}
 
                 updateFilteredMovies={updateFilteredSavedMovies}
-                setErrorMessage={setErrorMessage}
 
                 savedMovies={true}
                 savedMoviesArray={savedMovies}
-                errorMessage={errorMessage}
                 windowWidth={windowWidth}
 
                 deleteMovie={handleRemoveSavedMovie}

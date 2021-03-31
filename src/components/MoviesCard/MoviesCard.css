@@ -11,6 +11,7 @@
 }
 
 .card__trailer-link {
+  position: relative;
   color: unset;
   text-decoration: unset;
   width: 100%;

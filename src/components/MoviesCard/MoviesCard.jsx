@@ -1,16 +1,16 @@
 import React from 'react';
 import noPhoto from '../../images/jpg/no_photo.png';
-// import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import * as CONSTANTS from '../../utils/constants';
 
 function MoviesCards(props) {
 
   const cardData = props.card;
-  const MOVIES_URL = 'https://api.nomoreparties.co';
+  const MOVIES_URL = CONSTANTS.MOVIES_URL;
   const [ isSaved, setIsSaved ] = React.useState(false);
 
   React.useEffect(() => {
     setInitialLikes();
-  }, [setInitialLikes]);
+  }, []);
 
   function setInitialLikes() {
     const processedCard = props.savedMoviesArray.find((card) => returnSavedMovie(card));
@@ -35,19 +35,18 @@ function MoviesCards(props) {
     evt.preventDefault();
     evt.stopPropagation();
     setIsSaved(true);
-    console.log(isSaved);
     const movieProps = {
-      country: cardData.country || 'DEFAULT',
-      director: cardData.director  || 'DEFAULT',
-      duration: cardData.duration  || 'DEFAULT',
-      year: cardData.year  || 'DEFAULT',
-      description: cardData.description  || 'DEFAULT',
+      country: cardData.country || CONSTANTS.DEFAULT_DATA.country,
+      director: cardData.director  || CONSTANTS.DEFAULT_DATA.director,
+      duration: cardData.duration  || CONSTANTS.DEFAULT_DATA.duration,
+      year: cardData.year  || CONSTANTS.DEFAULT_DATA.year,
+      description: cardData.description  || CONSTANTS.DEFAULT_DATA.description,
       image: `${MOVIES_URL}${cardData.image.url}` || noPhoto,
-      trailer: cardData.trailerLink || 'https://www.youtube.com',
+      trailer: cardData.trailerLink || CONSTANTS.DEFAULT_DATA.trailer,
       thumbnail: `${MOVIES_URL}${cardData.image.formats.thumbnail.url}` || noPhoto,
       movieId: cardData.id,
-      nameRU: cardData.nameRU || 'DEFAULT',
-      nameEN: cardData.nameEN || 'DEFAULT',
+      nameRU: cardData.nameRU || CONSTANTS.DEFAULT_DATA.nameRU,
+      nameEN: cardData.nameEN || CONSTANTS.DEFAULT_DATA.nameEN,
     };
     props.saveMovie(movieProps);
   }

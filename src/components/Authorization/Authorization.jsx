@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/svg/header__logo.svg';
+import * as CONSTANTS from '../../utils/constants';
 
 function Authorization(props) {
 
@@ -23,7 +24,10 @@ function Authorization(props) {
     if (props.signIn === true) {
       setNameValid(true);
     } else if (evt.target.value === '') {
-      setNameError('Пожалуйста, заполните это поле');
+      setNameError(CONSTANTS.DEFAULT_ERROR.VALIDATION.EMPTY_FIELD);
+      setNameValid(false);
+    } else if (evt.target.value.length < 2) {
+      setNameError(CONSTANTS.DEFAULT_ERROR.VALIDATION.SHORT_NAME);
       setNameValid(false);
     } else {
       setNameError('');
@@ -33,12 +37,12 @@ function Authorization(props) {
 
   const emailHandler = (evt) => {
     setEmail(evt.target.value);
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = CONSTANTS.MAIL_REGEX;
     if (!re.test(String(evt.target.value).toLowerCase()) && evt.target.value.length >= 1) {
-      setEmailError('Некорректный Email');
+      setEmailError(CONSTANTS.DEFAULT_ERROR.VALIDATION.INCORRECT_EMAIL);
       setEmailValid(false);
     } else if (evt.target.value === '') {
-      setEmailError('Пожалуйста, заполните это поле');
+      setEmailError(CONSTANTS.DEFAULT_ERROR.VALIDATION.EMPTY_FIELD);
       setEmailValid(false);
     } else {
       setEmailError('');
@@ -49,10 +53,10 @@ function Authorization(props) {
   const passwordHandler = (evt) => {
     setPassword(evt.target.value);
     if (evt.target.value.length <= 7 && evt.target.value.length >= 1) {
-      setPasswordError('Пароль должен содержать не менее 8 символов');
+      setPasswordError(CONSTANTS.DEFAULT_ERROR.VALIDATION.SHORT_PASSWORD);
       setPasswordValid(false);
     } else if (evt.target.value === '') {
-      setPasswordError('Пожалуйста, заполните это поле');
+      setPasswordError(CONSTANTS.DEFAULT_ERROR.VALIDATION.EMPTY_FIELD);
       setPasswordValid(false);
     } else {
       setPasswordError('');

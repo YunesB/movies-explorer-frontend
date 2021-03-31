@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://www.api.webmovies.students.nomoredomains.work';
+import * as CONSTANTS from './constants';
+const BASE_URL = CONSTANTS.BASE_URL;
 
 function handleRes(res) {
   if (res.ok) {

@@ -1,7 +1,6 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
-// import Popup from '../Popup/Popup';
-// import Preloader from '../Preloader/Preloader';
 
 function MoviesCardsList(props) {
 
@@ -28,18 +27,21 @@ function MoviesCardsList(props) {
     <section className="cards">
       <ul className="cards__list">
         {props.movies.length === 0 ? 
-        <li className="cards__not-found-box">{props.errorMessage}</li> :
+        <li className="cards__not-found-box">
+          <p className="cards__not-found-text">{props.errorMessage}</p>
+          <NavLink to={props.errorLink} className="cards__not-found-link">{props.errorLinkText}</NavLink>
+        </li> :
         props.movies
           .slice(0, numberOfMovies)
           .map((movie) => (
-          <MoviesCard
+            <MoviesCard
               card={movie}
               key={movie.id || movie._id}
               savedMovies={props.savedMovies}
               savedMoviesArray={props.savedMoviesArray}
               saveMovie={props.saveMovie}
               deleteMovie={props.deleteMovie}
-          />
+            />
         ))}
       </ul>
       <button type="button" 
