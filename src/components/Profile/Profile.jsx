@@ -13,6 +13,7 @@ function Profile(props) {
   const [ emailValid, setEmailValid ] = React.useState(false);
 
   const [ submitDisabled, setSubmitDisabled ] = React.useState(true);
+  const [ isTooltipVisible, setTooltipVisible ] = React.useState(false);
 
   React.useEffect(() => {
     if (!currentUser.name || !currentUser.email) {
@@ -22,6 +23,14 @@ function Profile(props) {
     setName(currentUser.name);
     setEmail(currentUser.email);
   }, [currentUser]);
+
+  function toggletooltip() {
+    if(!nameValid || !emailValid) {
+      setTooltipVisible(true);
+    } else {
+      setTooltipVisible(false);
+    }
+  }
 
   React.useEffect(() => {
     if (nameValid && emailValid) {
@@ -65,9 +74,17 @@ function Profile(props) {
 
   return (
     <section className="profile">
+      <div className={`tooltip ${!isTooltipVisible ? 'hidden' : ''}`}>
+        <ul className="tooltip__list">
+          <li className="tooltip__list-item">Данные должны отличаться от текущих;</li>
+          <li className="tooltip__list-item">Имя должно включать только русские / английские буквы, пробел, либо дефис;</li>
+          <li className="tooltip__list-item">Email должен соответсвовать конструкции: example@example.com</li>
+        </ul>
+      </div>
       <h2 className="profile__greeting">Привет, {currentUser.name || 'Username'}!</h2>
       <form className="profile__form" 
         onSubmit={evt => handleSubmit(evt)}
+        onChange={toggletooltip}
       >
         <div className="profile__data-container">
           <label className="profile__text">
@@ -75,7 +92,6 @@ function Profile(props) {
           </label>
           <input 
             type="text"
-            // className="profile__input"
             className={`profile__input ${!nameValid ? 'profile__input-error' : ''}`}
             placeholder={currentUser.name || 'Username'}
             name="name"
@@ -89,7 +105,6 @@ function Profile(props) {
           </label>
           <input 
             type="email" 
-            // className="profile__input"
             className={`profile__input ${!emailValid ? 'profile__input-error' : ''}`}
             placeholder={currentUser.email || 'Email'}
             name="email"

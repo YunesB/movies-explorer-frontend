@@ -72,7 +72,7 @@ function SearchBar(props) {
     <section className="search-bar">
       <div className={`search-bar__tooltip ${!isTooltipVisible ? 'search-bar__tooltip_hidden' : ''}`}>
         <p className="search-bar__tootip-text">
-        Введите название фильма, либо просто нажмите 'Поиск', чтобы отобразить все карточки с фильмами
+        Введите название фильма, либо просто нажмите кнопку "Поиск", чтобы отобразить все карточки с фильмами.
         </p>
       </div>
       <form className="search-bar__form" 

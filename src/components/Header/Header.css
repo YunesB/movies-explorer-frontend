@@ -30,7 +30,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 .header__link_active {

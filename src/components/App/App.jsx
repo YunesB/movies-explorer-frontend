@@ -49,6 +49,17 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    if (!isLoggedIn) {
+      setCurrentUser({});
+      setMovies([]);
+      setFilteredSavedMovies([]);
+      setFilteredMovies([]);
+    } else {
+      history.push('/movies');
+    }
+  }, [isLoggedIn]);
+
+  React.useEffect(() => {
     if (!isLoggedIn){
       setPageLoading(false)
       return;
@@ -181,7 +192,6 @@ function App() {
       return;
     }
     signIn(email, password);
-    history.push('/movies');
   }
 
   function handleRegistration(name, email, password) {
@@ -190,7 +200,6 @@ function App() {
       .then((res) => {
         if (res) {
           signIn(email, password);
-          history.push('/movies');
         } else {
           setTooltipPopupOpened(true);
           setActionSuccessful(false);
@@ -203,16 +212,14 @@ function App() {
       })
       .finally(() => {
         setPageLoading(false);
-        
       })
   }
 
   function signOut() {
-    setMovies([]);
-    setCurrentUser({});
     setPageLoading(false);
     localStorage.removeItem('jwt');
     setLoggedIn(false);
+    setCurrentUser({});
   };
 
   if (!permissionsChecked){
