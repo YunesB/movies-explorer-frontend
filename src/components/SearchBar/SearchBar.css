@@ -1,9 +1,35 @@
 @import url("./Checkbox.css");
 
 .search-bar {
+  position: relative;
   margin: 0 70px;
   padding: 70px 0 90px;
   border-bottom: 1.5px solid #8b8b8b;
+}
+
+.search-bar__tooltip {
+  position: absolute;
+  visibility: visible;
+  opacity: 1;
+  top: 15px;
+  transition: 0.2s;
+}
+
+.search-bar__tootip-text {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3ddc84;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #3ddc84;
+  border-radius: 5px;
+}
+
+.search-bar__tooltip_hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s, opacity 0.2s linear;
 }
 
 .search-bar__form {

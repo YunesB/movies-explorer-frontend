@@ -46,50 +46,34 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     if (!isLoggedIn){
+      setPageLoading(false)
       return;
     }
+    setPageLoading(true)
     Promise.all([
       mainApi.getUserInfo(),
       mainApi.getSavedMovies(),
       moviesApi.getMovies(),
     ])
       .then(([userData, savedMovies, movies]) => {
-        setPageLoading(true);
         setCurrentUser(userData);
         setSavedMovies(savedMovies);
         saveMoviesToLocalStorage(movies);
         setMovies(movies);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        setPageLoading(false);
+        console.log(err)
+      })
       .finally(() => {
         setPageLoading(false);
         console.log('App boot success');
       })
   }, [isLoggedIn]);
-
-  function tokenCheck() {
-    let jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      return auth.checkTokenValidity(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setPermissionsChecked(true);
-        })
-    } else {
-      setPermissionsChecked(true);
-    }
-  };
   
   function saveMoviesToLocalStorage(data) {
     if (!localStorage.getItem('movies')) {
@@ -116,8 +100,9 @@ function App() {
     mainApi.saveMovie(movie)
       .then((savedMovie) => {
         setSavedMovies([savedMovie, ...savedMovies]);
+        setFilteredSavedMovies([savedMovie, ...filteredSavedMovies]);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   function handleRemoveSavedMovie(movieId) {
@@ -125,6 +110,7 @@ function App() {
       .then((deletedMovie) => {
         const refreshMovies = savedMovies.filter((c) => c._id !== deletedMovie._id);
         setSavedMovies(refreshMovies);
+        setFilteredSavedMovies(refreshMovies);
       })
       .catch((err) => console.log(err));
   }
@@ -147,22 +133,36 @@ function App() {
       })
   }
 
-  function handleLogin(email, password) {
-    setPageLoading(true);
-    if (!email || !password) {
-      console.log('login-error');
-      return;
+  function tokenCheck() {
+    let jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      return auth.checkTokenValidity(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setPermissionsChecked(true);
+        })
+    } else {
+      setPermissionsChecked(true);
     }
+  };
+
+  function signIn(email, password) {
     auth.signIn(email, password)
-      .then((data) => {  
-        history.push('/movies');
-        window.location.reload();
+      .then((data) => {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
           tokenCheck();
         } else {
           return
         }
+        history.push('/movies');
       })
       .catch((err) => {
         console.log(err);
@@ -174,12 +174,23 @@ function App() {
       })
   }
 
+  function handleLogin(email, password) {
+    setPageLoading(true);
+    if (!email || !password) {
+      console.log('login-error');
+      return;
+    }
+    signIn(email, password);
+    history.push('/movies');
+  }
+
   function handleRegistration(name, email, password) {
     setPageLoading(true);
     auth.signUp(name, email, password)
       .then((res) => {
         if (res) {
-          history.push('/sign-in');
+          signIn(email, password);
+          history.push('/movies');
         } else {
           setTooltipPopupOpened(true);
           setActionSuccessful(false);
@@ -192,110 +203,111 @@ function App() {
       })
       .finally(() => {
         setPageLoading(false);
+        
       })
   }
 
   function signOut() {
-    localStorage.removeItem('jwt');
-    setLoggedIn(false);
     setMovies([]);
     setCurrentUser({});
-    history.push('/');
+    setPageLoading(false);
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
   };
 
   if (!permissionsChecked){
     return null;
   }
 
-    return (
-      <CurrentUserContext.Provider value={currentUser}>
-        <div className="page">
-          <div className="content">
-            <Preloader 
-              isPageLoading={isPageLoading}
+  return (
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <div className="content">
+          <Preloader 
+            isPageLoading={isPageLoading}
+          />
+          <Popup 
+            isOpen={isTooltipPopupOpened}
+            isActionSuccessful={isActionSuccessful}
+            onClose={closeTooltipPopup}
+          />
+          <Switch>
+            <Route exact path="/">
+              <Landing
+                loggedIn={isLoggedIn}
+              />
+            </Route>
+            <ProtectedRoute path="/movies"
+              component={RouteComposer}
+              loggedIn={isLoggedIn}
+
+              movies={movies}
+              filteredMovies={filteredMovies}
+
+              updateFilteredMovies={updateFilteredMovies}
+
+              savedMovies={false}
+              savedMoviesArray={savedMovies}
+              windowWidth={windowWidth}
+
+              saveMovie={handleSaveMovie}
+              deleteMovie={handleRemoveSavedMovie}
             />
-            <Popup 
-              isOpen={isTooltipPopupOpened}
-              isActionSuccessful={isActionSuccessful}
-              onClose={closeTooltipPopup}
+            <ProtectedRoute path="/saved-movies"
+              component={RouteComposer}
+              loggedIn={isLoggedIn}
+
+              movies={savedMovies}
+              filteredMovies={filteredSavedMovies}
+
+              updateFilteredMovies={updateFilteredSavedMovies}
+
+              savedMovies={true}
+              savedMoviesArray={savedMovies}
+              windowWidth={windowWidth}
+
+              deleteMovie={handleRemoveSavedMovie}
             />
-            <Switch>
-              <Route exact path="/">
-                <Landing
-                  loggedIn={isLoggedIn}
-                />
-              </Route>
-              <ProtectedRoute path="/movies"
-                component={RouteComposer}
-                loggedIn={isLoggedIn}
+            <ProtectedRoute path="/profile" 
+              component={RouteProfile}
+              loggedIn={isLoggedIn}
 
-                movies={movies}
-                filteredMovies={filteredMovies}
-
-                updateFilteredMovies={updateFilteredMovies}
-
-                savedMovies={false}
-                savedMoviesArray={savedMovies}
-                windowWidth={windowWidth}
-
-                saveMovie={handleSaveMovie}
-                deleteMovie={handleRemoveSavedMovie}
+              onSubmit={handleUpdateUser}
+              signOut={signOut}
+            />
+            <Route path="/movies">
+              {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/" />}
+            </Route>
+            <Route path="/sign-in">
+              <Authorization 
+                signIn={true}
+                greeting={'Рады видеть!'}
+                submit={'Войти'}
+                subline={'Ещё не зарегистрированы? '}
+                linkText={'Регистрация'}
+                link={'/sign-up'}
+                handleSubmit={handleLogin}
               />
-              <ProtectedRoute path="/saved-movies"
-                component={RouteComposer}
-                loggedIn={isLoggedIn}
-
-                movies={savedMovies}
-                filteredMovies={savedMovies}
-
-                updateFilteredMovies={updateFilteredSavedMovies}
-
-                savedMovies={true}
-                savedMoviesArray={savedMovies}
-                windowWidth={windowWidth}
-
-                deleteMovie={handleRemoveSavedMovie}
+            </Route>
+            <Route path="/sign-up">
+              <Authorization 
+                signIn={false}
+                greeting={'Добро пожаловать!'}
+                submit={'Зарегистрироваться'}
+                subline={'Уже зарегистрированы? '}
+                linkText={'Войти'}
+                link={'/sign-in'}
+                handleSubmit={handleRegistration}
               />
-              <ProtectedRoute path="/profile" 
-                component={RouteProfile}
-                loggedIn={isLoggedIn}
-
-                onSubmit={handleUpdateUser}
-                signOut={signOut}
-              />
-              <Route path="/movies">
-                {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/sign-up" />}
-              </Route>
-              <Route path="/sign-in">
-                <Authorization 
-                  signIn={true}
-                  greeting={'Рады видеть!'}
-                  submit={'Войти'}
-                  subline={'Ещё не зарегистрированы? '}
-                  linkText={'Регистрация'}
-                  link={'/sign-up'}
-                  handleSubmit={handleLogin}
-                />
-              </Route>
-              <Route path="/sign-up">
-                <Authorization 
-                  signIn={false}
-                  greeting={'Добро пожаловать!'}
-                  submit={'Зарегистрироваться'}
-                  subline={'Уже зарегистрированы? '}
-                  linkText={'Войти'}
-                  link={'/sign-in'}
-                  handleSubmit={handleRegistration}
-                />
-              </Route>
-              <Route path="*">
-                <NotFound />
-              </Route>
-            </Switch>
-          </div>
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
         </div>
-      </CurrentUserContext.Provider>
-    );
+      </div>
+    </CurrentUserContext.Provider>
+  );
 }
 
 export default withRouter(App);

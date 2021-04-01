@@ -9,15 +9,30 @@ function Profile(props) {
   const [ name, setName ] = React.useState('');
   const [ email, setEmail ] = React.useState('');
 
-  const [ nameValid, setNameValid ] = React.useState(true);
-  const [ emailValid, setEmailValid ] = React.useState(true);
+  const [ nameValid, setNameValid ] = React.useState(false);
+  const [ emailValid, setEmailValid ] = React.useState(false);
 
   const [ submitDisabled, setSubmitDisabled ] = React.useState(true);
 
   React.useEffect(() => {
+    if (!currentUser.name || !currentUser.email) {
+      currentUser.name = 'загрузка данных...';
+      currentUser.email = 'загрузка данных...';
+    }
     setName(currentUser.name);
     setEmail(currentUser.email);
   }, [currentUser]);
+
+  React.useEffect(() => {
+    if (nameValid && emailValid) {
+      setSubmitDisabled(false);
+    } else if (name === currentUser.name && email === currentUser.email) {
+      setSubmitDisabled(true);
+    } else {
+      setSubmitDisabled(true);
+    } 
+    return submitDisabled;
+  }, [name, email, currentUser.name, currentUser.email, emailValid, nameValid, submitDisabled]);
 
   const nameHandler = (evt) => {
     setName(evt.target.value);
@@ -25,8 +40,6 @@ function Profile(props) {
     if (!re.test(String(evt.target.value).toLowerCase()) && evt.target.value.length >= 1) {
       setNameValid(false);
     } else if (evt.target.value === '') {
-      setNameValid(false);
-    } else if (evt.target.value === currentUser.name) {
       setNameValid(false);
     } else {
       setNameValid(true);
@@ -40,20 +53,8 @@ function Profile(props) {
       setEmailValid(false);
     } else if (evt.target.value === '') {
       setEmailValid(false);
-    } else if (evt.target.value === currentUser.email) {
-      setEmailValid(false);
     } else {
       setEmailValid(true);
-    }
-  };
-
-  function submitValidator() {
-    if (nameValid && emailValid) {
-      setSubmitDisabled(false);
-      return submitDisabled;
-    } else {
-      setSubmitDisabled(true);
-      return submitDisabled;
     }
   };
 
@@ -67,14 +68,14 @@ function Profile(props) {
       <h2 className="profile__greeting">Привет, {currentUser.name || 'Username'}!</h2>
       <form className="profile__form" 
         onSubmit={evt => handleSubmit(evt)}
-        onChange={submitValidator}
       >
         <div className="profile__data-container">
           <label className="profile__text">
             Имя
           </label>
           <input 
-            type="text" 
+            type="text"
+            // className="profile__input"
             className={`profile__input ${!nameValid ? 'profile__input-error' : ''}`}
             placeholder={currentUser.name || 'Username'}
             name="name"
@@ -88,6 +89,7 @@ function Profile(props) {
           </label>
           <input 
             type="email" 
+            // className="profile__input"
             className={`profile__input ${!emailValid ? 'profile__input-error' : ''}`}
             placeholder={currentUser.email || 'Email'}
             name="email"
@@ -95,7 +97,7 @@ function Profile(props) {
             onChange={evt => emailHandler(evt)}
           />
         </div>
-        <button type="submit" 
+        <button type="submit"
           className={`profile__button ${submitDisabled ? 'profile__button_disabled' : ''}`}
           disabled={submitDisabled}
         >Редактировать</button>

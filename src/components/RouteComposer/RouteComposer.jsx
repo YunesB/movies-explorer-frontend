@@ -13,11 +13,10 @@ function RouteMovies(props) {
 
   
   React.useEffect(() => {
-    if (errorMessage !== CONSTANTS.DEFAULT_MESSAGE.CARD_MOVIES.INITIAL_STATE && !props.savedMovies) {
-      setErrorMessage(CONSTANTS.DEFAULT_MESSAGE.CARD_MOVIES.INITIAL_STATE);
-      setErrorLink('');
-      setErrorLinkText('');
-    } else if (props.savedMovies) {
+    setErrorMessage(CONSTANTS.DEFAULT_MESSAGE.CARD_MOVIES.INITIAL_STATE);
+    setErrorLink('');
+    setErrorLinkText('');
+    if (props.savedMovies) {
       setErrorMessage(CONSTANTS.DEFAULT_MESSAGE.CARD_MOVIES.NO_SAVED_MOVIES);
       setErrorLink('/movies');
       setErrorLinkText(CONSTANTS.DEFAULT_MESSAGE.CARD_MOVIES.LINK_TEXT);

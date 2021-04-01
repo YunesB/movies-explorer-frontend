@@ -1,7 +1,8 @@
 .auth {
-  max-width: 400px;
+  max-width: 360px;
   padding: 70px 0;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .auth__logo-link {
@@ -29,7 +30,6 @@
 
 .auth__field {
   position: relative;
-  display: block;
   width: 100%;
   font-weight: normal;
   font-size: 10px;
