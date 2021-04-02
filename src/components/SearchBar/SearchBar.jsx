@@ -89,7 +89,10 @@ function SearchBar(props) {
         />
         <div className="search-bar__container">
           <label htmlFor="checkbox" className="search-bar__switch">
-            <input type="checkbox" className="search-bar__checkbox" onChange={toggleCheckbox} id="checkbox"/>
+            <input type="checkbox" 
+              className="search-bar__checkbox" 
+              onChange={toggleCheckbox} id="checkbox"
+            />
             <span className="search-bar__slider"></span>
           </label>
           <p className="search-bar__placeholder">Короткометражки</p>
