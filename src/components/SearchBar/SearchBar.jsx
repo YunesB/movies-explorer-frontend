@@ -26,10 +26,6 @@ function SearchBar(props) {
     setMovie(evt.target.value);
   }
 
-  function resetField() {
-    setMovie('');
-  }
-
   function handleFilter(movie, searchSrting) {
     return movie.nameRU.toLowerCase().includes(searchSrting.toLowerCase());
   }
@@ -45,7 +41,7 @@ function SearchBar(props) {
   function filterMoviesArray(movies, searchSrting) {
     if (isChecked) {
       const shortFilm = movies.filter((movie) => {
-        return movie.duration <= 40 && handleFilter(movie, searchSrting);
+        return movie.duration <= CONSTANTS.SHORT_MOVIE_LENGTH && handleFilter(movie, searchSrting);
       });
       return shortFilm;
     } else {
@@ -65,7 +61,6 @@ function SearchBar(props) {
     } else if (movie === '') {
       filteredMovies = props.movies;
     }
-    resetField();
   }
 
   return (

@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import * as CONSTANTS from '../../utils/constants';
 
 function MoviesCardsList(props) {
 
-  let numberOfCards = 12;
-  let numberOfNewCards = 4;
+  let numberOfCards = CONSTANTS.NUMBER_OF_CARDS;
+  let numberOfNewCards = CONSTANTS.NUMBER_OF_NEW_CARDS;
   const [ numberOfMovies, setNumberOfMovies ] = React.useState(numberOfCards);
 
   if (props.windowWidth > 768) {

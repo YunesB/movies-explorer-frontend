@@ -37,3 +37,7 @@ export const DEFAULT_MESSAGE = {
 export const MAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const NAME_REGEX = /^[А-Яа-яa-zA-Z]+(([' -][А-Яа-яa-zA-Z ])?[А-Яа-яa-zA-Z]*)*$/;
+
+export let NUMBER_OF_CARDS = 12;
+export let NUMBER_OF_NEW_CARDS = 4;
+export const SHORT_MOVIE_LENGTH = 40;

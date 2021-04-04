@@ -52,7 +52,7 @@ function Authorization(props) {
 
   const passwordHandler = (evt) => {
     setPassword(evt.target.value);
-    if (evt.target.value.length <= 7 && evt.target.value.length >= 1) {
+    if (evt.target.value.length < 8 && evt.target.value.length >= 1) {
       setPasswordError(CONSTANTS.DEFAULT_ERROR.VALIDATION.SHORT_PASSWORD);
       setPasswordValid(false);
     } else if (evt.target.value === '') {
@@ -68,10 +68,8 @@ function Authorization(props) {
     setNameValid(true);
     if (emailValid && passwordValid) {
       setSubmitDisabled(false);
-      return submitDisabled;
     } else {
       setSubmitDisabled(true);
-      return submitDisabled;
     }
   }
 
@@ -150,7 +148,7 @@ function Authorization(props) {
           type="submit" 
           className={`auth__submit ${emailValid && passwordValid && nameValid ? '': 'auth__submit_disabled'} 
             ${props.signIn ? 'auth__submit_state_sign-in' : ''}`}
-          disabled={submitDisabled}
+          disabled={emailValid && passwordValid && nameValid ? false : true}
         >
           {props.submit || 'SUBMIT'}
         </button>

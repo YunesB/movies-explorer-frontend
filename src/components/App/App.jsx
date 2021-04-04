@@ -71,10 +71,19 @@ function App() {
       moviesApi.getMovies(),
     ])
       .then(([userData, savedMovies, movies]) => {
+        let localMovies = [];
+        const setlocalMovies = () => {
+          if (!localStorage.getItem('movies')) {
+            localStorage.setItem('movies', JSON.stringify(movies));
+          } else {
+            localStorage.removeItem('movies');
+            localStorage.setItem('movies', JSON.stringify(movies));
+          }
+          return localMovies = JSON.parse(localStorage.getItem('movies'));
+        };
         setCurrentUser(userData);
         setSavedMovies(savedMovies);
-        saveMoviesToLocalStorage(movies);
-        setMovies(movies);
+        setMovies(setlocalMovies());
       })
       .catch((err) => {
         setPageLoading(false);
@@ -85,15 +94,6 @@ function App() {
         console.log('App boot success');
       })
   }, [isLoggedIn]);
-  
-  function saveMoviesToLocalStorage(data) {
-    if (!localStorage.getItem('movies')) {
-      localStorage.setItem('movies', JSON.stringify(data));
-    } else {
-      localStorage.removeItem('movies');
-      localStorage.setItem('movies', JSON.stringify(data));
-    }
-  }
 
   function closeTooltipPopup() {
     setTooltipPopupOpened(false);
