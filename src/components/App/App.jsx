@@ -55,7 +55,7 @@ function App() {
       setFilteredSavedMovies([]);
       setFilteredMovies([]);
     } else {
-      history.push('/movies');
+      return
     }
   }, [isLoggedIn]);
 
