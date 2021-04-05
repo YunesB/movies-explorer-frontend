@@ -170,10 +170,11 @@ function App() {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
           tokenCheck();
+          setLoggedIn(true);
+          history.push('/movies');
         } else {
           return
         }
-        history.push('/movies');
       })
       .catch((err) => {
         console.log(err);
@@ -192,6 +193,7 @@ function App() {
       return;
     }
     signIn(email, password);
+    history.push('/movies');
   }
 
   function handleRegistration(name, email, password) {
@@ -294,6 +296,7 @@ function App() {
                 linkText={'Регистрация'}
                 link={'/sign-up'}
                 handleSubmit={handleLogin}
+                isPageLoading={isPageLoading}
               />
             </Route>
             <Route path="/sign-up">
@@ -305,6 +308,7 @@ function App() {
                 linkText={'Войти'}
                 link={'/sign-in'}
                 handleSubmit={handleRegistration}
+                isPageLoading={isPageLoading}
               />
             </Route>
             <Route path="*">

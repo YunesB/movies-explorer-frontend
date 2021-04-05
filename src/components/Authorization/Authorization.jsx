@@ -97,7 +97,6 @@ function Authorization(props) {
   function handleLogin(evt) {
     evt.preventDefault();
     props.handleSubmit(email, password);
-    resetFileds();
   };
 
 
@@ -148,7 +147,7 @@ function Authorization(props) {
           type="submit" 
           className={`auth__submit ${emailValid && passwordValid && nameValid ? '': 'auth__submit_disabled'} 
             ${props.signIn ? 'auth__submit_state_sign-in' : ''}`}
-          disabled={emailValid && passwordValid && nameValid ? false : true}
+          disabled={emailValid && passwordValid && nameValid && !props.isPageLoading ? false : true}
         >
           {props.submit || 'SUBMIT'}
         </button>
