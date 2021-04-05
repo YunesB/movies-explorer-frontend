@@ -1,7 +1,11 @@
+import ScrollableAnchor from 'react-scrollable-anchor';
+
 function Technologies() {
   return (
     <section className="technologies">
-      <h2 className="technologies__heading">Технологии</h2>
+      <ScrollableAnchor id={'technologies'}>
+        <h2 className="technologies__heading">Технологии</h2>
+      </ScrollableAnchor>
       <div className="technologies__container">
         <h3 className="technologies__title">7 технологий</h3>
         <h3 className="technologies__subtitle">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</h3>

@@ -4,6 +4,7 @@
 }
 
 .cards__list {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   row-gap: 32px;
@@ -11,6 +12,35 @@
   margin: 80px auto;
   list-style-type: none;
   padding: 0;
+  max-width: 100%;
+}
+
+.cards__not-found-box {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / -1;
+  transition: 0.2s;
+}
+
+.cards__not-found-text {
+  text-align: center;
+  margin: 0 auto 15px;
+}
+
+.cards__not-found-link {
+  text-decoration: none;
+  color: #3ddc84;
+  transition: 0.2s;
+}
+
+.cards__not-found-link:hover {
+  opacity: 0.7;
 }
 
 .cards__button {
@@ -29,6 +59,10 @@
   font-size: 12px;
   line-height: 15px;
   transition: 0.2s;
+}
+
+.cards__button_state_hidden {
+  display: none;
 }
 
 .cards__button:hover {

@@ -7,7 +7,8 @@
   right: 0;
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transition: visibility .2s, opacity .2s linear; 
+  transition: visibility 0.2s, opacity 0.2s linear;
+  z-index: 5;
 }
 
 .popup_opened {
@@ -26,9 +27,8 @@
   margin: auto;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   opacity: 1;
-  z-index: 3;
   color: black;
 }
 
@@ -39,9 +39,9 @@
   align-items: center;
   padding: 60px 0;
   position: fixed;
-  max-width: 430px;
+  max-width: 330px;
   width: 100%;
-  background-color: white;
+  background-color: #2e2e2e;
   border-radius: 10px;
   margin: auto;
   top: 50%;
@@ -49,20 +49,17 @@
   transform: translate(-50%, -50%);
   opacity: 1;
   z-index: 3;
-  color: black;
-}
-
-.popup__tooltip-image {
-  height: 120px;
-  width: 120px;
+  color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .popup__tooltip-heading {
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 22px;
   text-align: center;
-  margin: 32px 0 0;
-  max-width: 368px;
+  margin: 12px 0 0;
+  max-width: 300px;
 }
 
 .popup__heading {
@@ -77,14 +74,15 @@
   background-image: url("../../images/svg/close_icon.svg");
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: unset;
   border: none;
-  width: 47px;
-  height: 47px;
+  width: 27px;
+  height: 27px;
   position: absolute;
-  top: -40px;
-  right: -40px;
+  top: 15px;
+  right: 15px;
   padding: 0;
+  border-radius: 50%;
 }
 
 .popup__close:active {
@@ -97,17 +95,15 @@
 
 .popup__close:hover {
   cursor: pointer;
-  opacity: .6;
+  opacity: 0.6;
 }
 
-@media screen and (max-width: 550px) {	
-  .popup__container {	
-      max-width: 320px;	
-  }	
+@media screen and (max-width: 550px) {
+  .popup__container {
+    max-width: 320px;
+  }
 
   .popup__close {
-    top: -32px;
-    right: -32px;
     width: 30px;
     height: 30px;
   }
@@ -132,7 +128,7 @@
     line-height: 17px;
   }
 
-  .popup__container {	
-    max-width: 250px;	
-  }	
+  .popup__container {
+    max-width: 250px;
+  }
 }

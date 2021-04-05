@@ -77,10 +77,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
+  margin: 0 auto;
   text-decoration: none;
   transition: 0.2s;
   font-size: 18px;
   line-height: 22px;
+}
+
+.sidebar__link-box_active {
+  background-color: #3ddc84;
+  padding: 0 0 0 10px;
+  border-radius: 15px;
+  color: black;
 }
 
 .sidebar__link-box:hover {

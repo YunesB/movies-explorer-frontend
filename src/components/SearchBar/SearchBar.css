@@ -1,9 +1,35 @@
 @import url("./Checkbox.css");
 
 .search-bar {
+  position: relative;
   margin: 0 70px;
   padding: 70px 0 90px;
   border-bottom: 1.5px solid #8b8b8b;
+}
+
+.search-bar__tooltip {
+  position: absolute;
+  visibility: visible;
+  opacity: 0.7;
+  top: 15px;
+  transition: 0.2s;
+}
+
+.search-bar__tootip-text {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3ddc84;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #3ddc84;
+  border-radius: 5px;
+}
+
+.search-bar__tooltip_hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s, opacity 0.2s linear;
 }
 
 .search-bar__form {
@@ -22,14 +48,17 @@
   line-height: 20px;
   background-color: unset;
   border: none;
-  width: 90%;
+  width: 88%;
 }
 
 .search-bar__input:focus {
-  color: white;
   outline: none;
   background-color: #2e2e2e;
   box-sizing: border-box;
+}
+
+.search-bar__input-error {
+  color: #ee3465;
 }
 
 .search-bar__submit {
@@ -50,6 +79,17 @@
   cursor: pointer;
 }
 
+.search-bar__submit_disabled {
+  opacity: 0.7;
+  background-color: #2e2e2e;
+  color: #8b8b8b;
+}
+
+.search-bar__submit_disabled:hover {
+  opacity: 0.7;
+  cursor: default;
+}
+
 .search-bar__container {
   display: flex;
   align-items: center;
@@ -65,6 +105,18 @@
   font-size: 13px;
   line-height: 18px;
   margin: 0 0 0 14px;
+}
+
+@media screen and (max-width: 800px) {
+  .search-bar__tooltip {
+    top: 200px;
+    background-color: #2e2e2e;
+    opacity: 1;
+  }
+
+  .search-bar__tooltip-text {
+    opacity: 0.7;
+  }
 }
 
 @media screen and (max-width: 768px) {

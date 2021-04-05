@@ -1,7 +1,11 @@
+import ScrollableAnchor from 'react-scrollable-anchor';
+
 function About() {
   return (
     <section className="about">
-      <h2 className="about__heading">О проекте</h2>
+      <ScrollableAnchor id={'about'}>
+        <h2 className="about__heading">О проекте</h2>
+      </ScrollableAnchor>
       <div className="about__text-container">
         <div className="about__text-box">
           <h3 className="about__sub-heading">Дипломный проект включал 5 этапов</h3>

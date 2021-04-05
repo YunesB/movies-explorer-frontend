@@ -2,6 +2,7 @@
   width: 100%;
   background-color: #073042;
   position: relative;
+  z-index: 4;
 }
 
 .header__state_logged-in {
@@ -29,7 +30,12 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  transition: 0.2s;
+  transition: 0.1s;
+}
+
+.header__link_active {
+  padding-bottom: 2px;
+  border-bottom: 1px solid #3ddc84;
 }
 
 .header__link_state_logged-in {
@@ -61,6 +67,14 @@
   font-size: 12px;
   line-height: 16px;
   transition: 0.2s;
+}
+
+.header__link-box_active {
+  background-color: #3ddc84;
+  padding: 0 0 0 10px;
+  margin: 0 0 0 20px;
+  border-radius: 15px;
+  color: black;
 }
 
 .header__link-box:hover {
@@ -99,6 +113,10 @@
   padding: 0;
   border: none;
   transition: 0.2s;
+}
+
+.header__burger-button_landing {
+  background-color: #073042;
 }
 
 @media screen and (min-width: 769px) {

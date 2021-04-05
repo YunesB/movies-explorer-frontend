@@ -19,8 +19,8 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -32,17 +32,17 @@
   left: 2px;
   bottom: 2px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
 .search-bar__checkbox:checked + .search-bar__slider {
-  background-color: #3DDC84;
+  background-color: #3ddc84;
 }
 
 .search-bar__checkbox:focus + .search-bar__slider {
-  box-shadow: 0 0 1px #3DDC84;
+  box-shadow: 0 0 1px #3ddc84;
 }
 
 .search-bar__checkbox:checked + .search-bar__slider:before {
