@@ -9,15 +9,19 @@ function MoviesCardsList(props) {
   let numberOfNewCards = CONSTANTS.NUMBER_OF_NEW_CARDS;
   const [ numberOfMovies, setNumberOfMovies ] = React.useState(numberOfCards);
 
-  if (props.windowWidth > 768) {
+  React.useEffect(() => {
+    setNumberOfMovies(numberOfCards);
+  }, [numberOfCards]);
+
+  if (props.windowWidth > 769) {
     numberOfCards = 12;
     numberOfNewCards = 4;
-  } else if (props.windowWidth > 550) {
+  } else if (props.windowWidth > 550 && props.windowWidth <= 768) {
     numberOfCards = 8;
     numberOfNewCards = 2;
   } else if (props.windowWidth <= 550) {
     numberOfCards = 5;
-    numberOfNewCards = 2;
+    numberOfNewCards = 1;
   }
 
   function sliceArray() {
